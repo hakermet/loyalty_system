@@ -11,9 +11,7 @@ WORKDIR /app
 # Install system dependencies
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        postgresql-client \
         build-essential \
-        libpq-dev \
         git \
     && rm -rf /var/lib/apt/lists/*
 
@@ -27,9 +25,6 @@ COPY . /app/
 # Create logs directory
 RUN mkdir -p /app/logs
 
-# Collect static files
-RUN python manage.py collectstatic --noinput --settings=loyalty_system.settings_production
-
 # Create non-root user
 RUN adduser --disabled-password --gecos '' appuser
 RUN chown -R appuser:appuser /app
@@ -38,5 +33,9 @@ USER appuser
 # Expose port
 EXPOSE 8000
 
-# Run gunicorn
-CMD ["gunicorn", "loyalty_system.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]
+# Copy entrypoint script
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
+# Run entrypoint script
+CMD ["/app/entrypoint.sh"]
