@@ -25,17 +25,19 @@ COPY . /app/
 # Create logs directory
 RUN mkdir -p /app/logs
 
+
+
+# Copy entrypoint script
+COPY entrypoint.sh /app/entrypoint.sh
+
 # Create non-root user
 RUN adduser --disabled-password --gecos '' appuser
 RUN chown -R appuser:appuser /app
+RUN chmod +x /app/entrypoint.sh
 USER appuser
 
 # Expose port
 EXPOSE 8000
-
-# Copy entrypoint script
-COPY entrypoint.sh /app/entrypoint.sh
-RUN chmod +x /app/entrypoint.sh
 
 # Run entrypoint script
 CMD ["/app/entrypoint.sh"]
