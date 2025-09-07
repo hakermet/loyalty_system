@@ -28,7 +28,7 @@ loyalty_system/
 ## 🛠 Технології
 
 - **Backend**: Django 4.2, Django REST Framework
-- **Database**: PostgreSQL / SQLite
+- **Database**: SQLite
 - **Bot**: python-telegram-bot
 - **API Integration**: Checkbox API
 - **Deployment**: Docker, Gunicorn, Nginx
@@ -110,7 +110,7 @@ TELEGRAM_BOT_TOKEN=your-telegram-bot-token
 CHECKBOX_LOGIN=your-checkbox-login
 CHECKBOX_PASSWORD=your-checkbox-password
 CHECKBOX_LICENSE_KEY=your-checkbox-license-key
-DATABASE_URL=postgresql://user:pass@host:port/dbname
+# SQLite використовується автоматично - додаткові налаштування не потрібні
 ```
 
 ## 🌟 Рекомендовані хостинги

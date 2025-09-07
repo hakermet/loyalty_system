@@ -42,8 +42,8 @@ gunicorn==23.0.0
 # Змінні оточення
 python-decouple==3.8
 
-# База даних для production (PostgreSQL)
-psycopg2-binary==2.9.9
+# База даних SQLite (вбудована в Python)
+# sqlite3 - вбудований модуль
 
 # Статичні файли для production
 whitenoise==6.8.2

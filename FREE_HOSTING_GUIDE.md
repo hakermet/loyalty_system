@@ -7,7 +7,7 @@
 **Переваги:**
 - ✅ 100% безкоштовний план
 - ✅ Автоматичне розгортання з GitHub
-- ✅ PostgreSQL база даних включена
+- ✅ SQLite база даних (файлова)
 - ✅ SSL сертифікати автоматично
 - ✅ Простий інтерфейс
 - ✅ Підтримка Python/Django
@@ -30,9 +30,10 @@
    New Project → Deploy from GitHub repo → Вибрати ваш репозиторій
    ```
 
-3. **Додавання бази даних:**
+3. **База даних:**
    ```
-   Add Service → Database → PostgreSQL
+   SQLite використовується автоматично (файл db.sqlite3)
+   Додаткові сервіси бази даних не потрібні
    ```
 
 4. **Налаштування змінних оточення:**
@@ -66,7 +67,7 @@
 
 **Переваги:**
 - ✅ 100% безкоштовний план
-- ✅ PostgreSQL база даних
+- ✅ SQLite база даних (файлова)
 - ✅ SSL автоматично
 - ✅ GitHub інтеграція
 - ✅ Статичні файли
@@ -90,15 +91,16 @@
    Start Command: gunicorn loyalty_system.wsgi:application
    ```
 
-3. **Додавання PostgreSQL:**
+3. **База даних:**
    ```
-   New → PostgreSQL → Free Plan
+   SQLite використовується автоматично
+   Додаткові налаштування не потрібні
    ```
 
 4. **Змінні оточення:**
    ```
    Environment Variables:
-   DATABASE_URL (автоматично з PostgreSQL)
+   # DATABASE_URL не потрібен для SQLite
    SECRET_KEY=your-secret-key
    CHECKBOX_LOGIN=struyska45ch
    CHECKBOX_PASSWORD=6589695541
