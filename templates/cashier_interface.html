@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Касовий інтерфейс - Система лояльності</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Hide scrollbars */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        
+        html {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 50px;
+            max-width: 520px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+        
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            letter-spacing: -0.8px;
+            text-align: center;
+        }
+        
+        .header p {
+            color: #6b7280;
+            font-size: 18px;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        input[type="text"], input[type="number"], input[type="tel"] {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+            color: #1f2937;
+            font-weight: 500;
+            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
+        }
+        
+        input[type="text"]::placeholder, input[type="number"]::placeholder, input[type="tel"]::placeholder {
+            color: #94a3b8;
+        }
+        
+        input[type="text"]:focus, input[type="number"]:focus, input[type="tel"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+        }
+        
+        input[type="tel"] {
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+        }
+        
+        input[type="tel"]::placeholder {
+            color: #9ca3af;
+            font-weight: 500;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn:hover {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            transform: translateY(-3px);
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: #94a3b8;
+            box-shadow: none;
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            display: none;
+            font-weight: 600;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .result.success {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(21, 128, 61, 0.1));
+            border: 2px solid rgba(34, 197, 94, 0.3);
+            color: #15803d;
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.2);
+        }
+        
+        .result.error {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(185, 28, 28, 0.1));
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            color: #dc2626;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2);
+        }
+        
+        .customer-info {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(30, 64, 175, 0.1));
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            color: #1e40af;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            display: none;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+            font-weight: 600;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            color: #64748b;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .code-input, .auth-select {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+            color: #1f2937;
+            font-weight: 500;
+            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
+        }
+        
+        .code-input {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .auth-select {
+            text-align: left;
+            cursor: pointer;
+        }
+        
+        .auth-select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+        }
+        
+        #phoneNumber {
+            text-transform: none;
+            letter-spacing: normal;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏪 Касовий інтерфейс</h1>
+            <p>Система лояльності</p>
+        </div>
+        
+        <form id="autoSyncForm">
+            <div class="form-group">
+                <label for="autoPhoneNumber">Номер телефону (10 цифр без +38):</label>
+                    <input type="tel" id="autoPhoneNumber" name="phone_number" placeholder="0663740302" pattern="[0-9]{10}" maxlength="10" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="autoReceiptId">ID чеку (з фото чеку):</label>
+                <input type="text" id="autoReceiptId" name="autoReceiptId" placeholder="rZS_ylv6Nbo" required>
+            </div>
+            
+            <button type="submit" id="autoProcessBtn" class="btn">
+                💰 Обробити чек
+            </button>
+        </form>
+        
+        <div class="loading" id="autoLoading">
+            <p>⏳ Обробка...</p>
+        </div>
+        
+        <div id="autoResult" class="result"></div>
+    </div>
+    
+    <script>
+        // Обробка автоматичної синхронізації
+        const autoSyncForm = document.getElementById('autoSyncForm');
+        const autoProcessBtn = document.getElementById('autoProcessBtn');
+        const autoLoading = document.getElementById('autoLoading');
+        const autoResult = document.getElementById('autoResult');
+        
+        autoSyncForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(autoSyncForm);
+            const phoneNumber = formData.get('phone_number');
+            const receiptId = formData.get('autoReceiptId');
+            
+            if (!phoneNumber || !receiptId) {
+                showAutoResult('Введіть номер телефону та ID чеку', 'error');
+                return;
+            }
+            
+            if (!/^[0-9]{10}$/.test(phoneNumber)) {
+                showAutoResult('Номер телефону повинен містити рівно 10 цифр без +38 (наприклад: 0663740302)', 'error');
+                return;
+            }
+            
+            // Додаємо префікс +38 до номера телефону
+            const fullPhoneNumber = '+38' + phoneNumber;
+            
+            const data = {
+                phone_number: fullPhoneNumber,
+                receipt_id: receiptId
+            };
+            
+            showAutoLoading(true);
+            
+            console.log('Відправляємо запит:', data);
+            
+            try {
+                const response = await fetch('/api/cashier/process-receipt-auto/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                console.log('Отримано відповідь:', response.status, response.statusText);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const result_data = await response.json();
+                console.log('Дані відповіді:', result_data);
+                
+                if (result_data.success) {
+                    let message = `
+                        <h4>✅ Чек успішно оброблено!</h4>
+                        <p><strong>Сума з чеку:</strong> ${result_data.receipt_data.original_amount} грн</p>
+                        <p><strong>Знижка:</strong> ${result_data.receipt_data.discount_percentage}% (-${Number(result_data.receipt_data.discount_amount).toFixed(2)} грн)</p>
+                        <p><strong>До сплати:</strong> ${Number(result_data.receipt_data.final_amount).toFixed(2)} грн</p>
+                        <p><strong>Рівень клієнта:</strong> ${result_data.receipt_data.customer_level} (${result_data.receipt_data.customer_discount}%)</p>
+                        <p><strong>Загальна сума покупок:</strong> ${result_data.receipt_data.total_spent} грн</p>
+                    `;
+                    
+                    showAutoResult(message, 'success');
+                    autoSyncForm.reset();
+                } else {
+                    showAutoResult(result_data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Помилка запиту:', error);
+                showAutoResult(`Помилка обробки запиту: ${error.message}`, 'error');
+            }
+            
+            showAutoLoading(false);
+        });
+        
+        function showAutoLoading(show) {
+            autoLoading.style.display = show ? 'block' : 'none';
+            autoProcessBtn.disabled = show;
+        }
+        
+        function showAutoResult(message, type) {
+            autoResult.innerHTML = message;
+            autoResult.className = `result ${type}`;
+            autoResult.style.display = 'block';
+            
+            setTimeout(() => {
+                autoResult.style.display = 'none';
+            }, 15000);
+        }
+        
+        // Форматування номера телефону
+        document.addEventListener('DOMContentLoaded', function() {
+            const phoneInput = document.getElementById('autoPhoneNumber');
+            
+            phoneInput.addEventListener('input', function(e) {
+                // Видаляємо всі нецифрові символи
+                let value = e.target.value.replace(/\D/g, '');
+                
+                // Обмежуємо до 10 цифр
+                if (value.length > 10) {
+                    value = value.substring(0, 10);
+                }
+                
+                e.target.value = value;
+            });
+            
+            phoneInput.addEventListener('keypress', function(e) {
+                // Дозволяємо тільки цифри, backspace, delete, tab, escape, enter
+                if (!/[0-9]/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

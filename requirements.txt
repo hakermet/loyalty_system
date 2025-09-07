@@ -1,0 +1,52 @@
+# Django та основні компоненти
+Django==5.1.5
+djangorestframework==3.15.2
+
+# Telegram Bot
+python-telegram-bot==13.15
+
+# HTTP запити
+requests==2.32.3
+
+# QR коди
+qrcode[pil]==8.0
+Pillow==10.4.0
+
+# Часові пояси
+pytz==2024.2
+
+# Робота з JSON (вбудований в Python)
+# json - вбудований модуль
+
+# Робота з файлами та системою
+# os, sys, pathlib - вбудовані модулі
+
+# Логування
+# logging - вбудований модуль
+
+# Математичні операції
+# decimal - вбудований модуль
+
+# Генерація випадкових значень
+# string, random - вбудовані модулі
+
+# Робота з байтами
+# io - вбудований модуль
+
+# Трейсбек для відладки
+# traceback - вбудований модуль
+
+# WSGI сервер для production
+gunicorn==23.0.0
+
+# Змінні оточення
+python-decouple==3.8
+
+# База даних для production (PostgreSQL)
+psycopg2-binary==2.9.9
+
+# Статичні файли для production
+whitenoise==6.8.2
+
+# CORS заголовки
+django-cors-headers==4.6.0
