@@ -133,13 +133,13 @@ REST_FRAMEWORK = {
 }
 
 # Telegram Bot settings
-TELEGRAM_BOT_TOKEN = config('TELEGRAM_BOT_TOKEN')
+TELEGRAM_BOT_TOKEN = config('TELEGRAM_BOT_TOKEN', default='your-telegram-bot-token')
 
 # Checkbox API settings
 CHECKBOX_API_URL = config('CHECKBOX_API_URL', default='https://api.checkbox.in.ua/api/v1')
-CHECKBOX_LOGIN = config('CHECKBOX_LOGIN')
-CHECKBOX_PASSWORD = config('CHECKBOX_PASSWORD')
-CHECKBOX_LICENSE_KEY = config('CHECKBOX_LICENSE_KEY')
+CHECKBOX_LOGIN = config('CHECKBOX_LOGIN', default='your-checkbox-login')
+CHECKBOX_PASSWORD = config('CHECKBOX_PASSWORD', default='your-checkbox-password')
+CHECKBOX_LICENSE_KEY = config('CHECKBOX_LICENSE_KEY', default='your-checkbox-license-key')
 
 # Alternative Checkbox URLs for failover
 CHECKBOX_ALTERNATIVE_URLS = [
