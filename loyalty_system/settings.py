@@ -20,7 +20,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ge%5=aab6+qk^7nzl1cdspdx@4h((5(0tfs*dlw_v7po*w_491'
+from decouple import config
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-ge%5=aab6+qk^7nzl1cdspdx@4h((5(0tfs*dlw_v7po*w_491')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -45,14 +46,14 @@ INSTALLED_APPS = [
 # ... інші налаштування ...
 
 # Налаштування для Telegram бота
-TELEGRAM_BOT_TOKEN = '8365254781:AAGv-U6Ih05huZ9mZ7yhz9_2Bcg-cme2gJA'
+TELEGRAM_BOT_TOKEN = config('TELEGRAM_BOT_TOKEN', default='your-telegram-bot-token')
 
 # Налаштування для Checkbox
 # Налаштування Checkbox API - справжні дані для production
-CHECKBOX_API_URL = 'https://api.checkbox.in.ua/api/v1'
-CHECKBOX_LOGIN = 'struyska45ch'  # Ваш справжній логін
-CHECKBOX_PASSWORD = '6589695541'  # Ваш справжній PIN-код касира
-CHECKBOX_LICENSE_KEY = '525a77dbf8c8eb5659bfc3fe'  # Ваш справжній ліцензійний ключ
+CHECKBOX_API_URL = config('CHECKBOX_API_URL', default='https://api.checkbox.in.ua/api/v1')
+CHECKBOX_LOGIN = config('CHECKBOX_LOGIN', default='your-checkbox-login')
+CHECKBOX_PASSWORD = config('CHECKBOX_PASSWORD', default='your-checkbox-password')
+CHECKBOX_LICENSE_KEY = config('CHECKBOX_LICENSE_KEY', default='your-checkbox-license-key')
 
 # Альтернативні URL для тестування різних серверів
 CHECKBOX_ALTERNATIVE_URLS = [
